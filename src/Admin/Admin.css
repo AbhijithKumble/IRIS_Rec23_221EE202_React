@@ -1,4 +1,9 @@
 .admin {
     background-color: rebeccapurple;
-    height: 50%;
+    height: 500px;
+}
+
+.profile {
+    background-color: aqua;
+    height: 250px;
 }
