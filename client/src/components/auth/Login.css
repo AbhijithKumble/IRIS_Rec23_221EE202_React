@@ -1,0 +1,13 @@
+.login {
+    width: 35%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.login > button {
+    margin-top: 15px;
+    width: 10%;
+    margin-left: auto;
+}

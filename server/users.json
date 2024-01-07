@@ -1,0 +1,10 @@
+[
+    {
+        "usr" : "admin",
+        "pwd" : "admin123"
+    },
+    {
+        "usr" : "student",
+        "pwd" : "student123"
+    }
+]
