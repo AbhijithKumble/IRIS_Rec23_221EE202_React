@@ -1,7 +1,7 @@
 const Profile = (prop) => {
     return (
         <>
-            ${prop.role}
+            $  {prop.role} profile $
         </>
     );
 };

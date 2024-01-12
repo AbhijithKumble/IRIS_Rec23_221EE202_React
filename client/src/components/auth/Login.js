@@ -1,11 +1,12 @@
 import React from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import { useDispatch } from "react-redux";
+import { authActions } from "../../store/store.js";
 import "./Login.css"
 
 const Login = () => {
-
+    const dispatch = useDispatch();
     const history = useNavigate();
 
     const [username, setUsername] = React.useState('');
@@ -16,7 +17,6 @@ const Login = () => {
         password
     };
 
-
     const handleUsernameChange = (event) => {
         setUsername(event.target.value);
     };
@@ -25,43 +25,37 @@ const Login = () => {
         setPassword(event.target.value);
     };
 
-    const handleSubmit =async (event) => {
+    const sendRequest =async () => {
+        await axios.post("http://localhost:5000/login",data)
+        .then((res) => {
+            console.log(res);
+            if (res.status === 200)
+            history('/home', {state : res.user.role});
+            else {
+                alert("wrong details");
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    };
 
+    const handleSubmit = (event) => {
         event.preventDefault();
 
-        try {
-            await axios.post("http://localhost:5000/login",data, {
-                headers: {
-                    "Content-Type": "application/json",
-                }
-            })
-            .then((res) => {
-                console.log(res);
-                if (res.data['status'] === "success")
-                history('/home', {state:`${res.data['role']}`});
-                else {
-                    alert("wrong details");
-                    history('/login' );
-                }
-            })
-            .catch((error) => {
-                console.log(`${error}`);
-            });
-        }
-        catch(error) {
-            console.log(error.message);
-        }
-
+        sendRequest()
+            .then(() => dispatch(authActions.login()))
+            .then(() => history("/home"))
     };
     
     return(
         <div className="App">
-            <form   className="login" method="post">
+            <form className="login" method="post">
                 <label htmlFor="username">Username</label>
                 <input className="username" type="text" onChange={handleUsernameChange} value={username} required autoFocus></input>
                 <label htmlFor="password">Password</label>
                 <input className="username" type="password" onChange={handlePasswordChange} value={password} required></input>
-                <button onClick={handleSubmit} type="button" value="submit">Login</button>
+                <button id="login-button" onClick={handleSubmit} type="submit" value="submit">Login</button>
             </form>
         </div>
     );
