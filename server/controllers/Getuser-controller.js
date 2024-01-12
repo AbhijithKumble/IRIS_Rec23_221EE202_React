@@ -1,10 +1,11 @@
-import User from "../models/user.model.js";
-
 const getUser = async (req, res, next) => {
+    console.log(req);
     const userId = req.id;
+    console.log(userId);
     let user;
     try {
-      user = await User.findById(userId, "-password");
+      
+      console.log(user);
     } catch (err) {
       return new Error(err);
     }

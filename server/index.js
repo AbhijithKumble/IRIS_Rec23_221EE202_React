@@ -17,7 +17,6 @@ import logoutRouter from "./routes/Logout.js";
 //helpers 
 
 import connectDB from "./db.js";
-import { get } from "mongoose";
 
 // =====================================================================================================//
 config();
@@ -25,33 +24,31 @@ config();
 const app = express();
 
 const PORT = process.env.PORT || 5000;      //backend port 
-const origin = `http://localhost:${PORT}/login`;
+const origin = `http://localhost:${PORT}`;
 
-app.use(cors());             //allow cross origin reqs
-
+// app.use(cors({credentials: true, origin:origin}));             //allow cross origin reqs
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    credentials: true,
+};
 
 app.use(express.json());  
 app.use(cookieParser());
-
+app.use(cors(corsOptions));
 
 const MONGODB_URI=String(process.env['MONGODB_URI']);
 
 connectDB(MONGODB_URI, PORT);  //connect the database
 app.listen(PORT);
 
-//routes
-app.use('/login',cors(), loginRouter);
-app.use('/home',homeRouter);
+app.use('/login'  , loginRouter);
+app.use('/home'   , homeRouter);
 app.use('/refresh', refreshRouter);
-app.use('/user', getUserRouter);
-app.use('/view', viewRouter);
-app.use('/apply', applyRouter);
-app.use('/create', createRouter);
-app.use('/logout', logoutRouter);
-
-
-
-
+app.use('/user'   , getUserRouter);
+app.use('/view'   , viewRouter);
+app.use('/apply'  , applyRouter);
+app.use('/create' , createRouter);
+app.use('/logout' , logoutRouter);
 
 
 

@@ -9,15 +9,10 @@ const login = async (req, res) => {
     let loginDB;
     let collection;
 
-    try {
-        loginDB = mongoose.connection.getClient().db('iris-service-req');
-        collection = loginDB.collection('login-info');  //collection used to store login-info
-    } catch(error) {
-        return res.status(500).json({
-            message : "Invalid database"
-        });
-    }  
-    
+
+    loginDB = mongoose.connection.getClient().db('iris-service-req');
+    collection = loginDB.collection('login-info');  //collection used to store login-info
+     
     try{
         existingUser = await collection.findOne({username});
     } catch(error) {
@@ -59,7 +54,11 @@ const login = async (req, res) => {
         .status(200)
         .json({ 
             message: "Successfully Logged In", 
-            user: existingUser, 
+            user: {
+                username : username,
+                password:password
+            }, 
+            role : existingUser.role,
             token 
         });
 };

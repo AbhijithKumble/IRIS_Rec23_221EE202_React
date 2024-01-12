@@ -28,9 +28,11 @@ const Login = () => {
     const sendRequest =async () => {
         await axios.post("http://localhost:5000/login",data)
         .then((res) => {
-            console.log(res);
-            if (res.status === 200)
-            history('/home', {state : res.user.role});
+            console.log(res.status === 200);
+            if (res.status === 200) {
+                console.log(res);
+                history('/home', {state : res.data.role});
+            }
             else {
                 alert("wrong details");
             }
@@ -45,7 +47,7 @@ const Login = () => {
 
         sendRequest()
             .then(() => dispatch(authActions.login()))
-            .then(() => history("/home"))
+            // .then(() => history("/home"));
     };
     
     return(

@@ -69,7 +69,7 @@ const Home = () => {
             withCredentials: true,
         })
         .catch((err) => console.log(err));
-
+        
         const data = await res.data;
         return data;
     };
@@ -79,7 +79,7 @@ const Home = () => {
             withCredentials: true,
         })
         .catch((err) => console.log(err));
-
+        console.log(res);
         const data = await res.data;
         return data;
     };
@@ -100,12 +100,12 @@ const Home = () => {
     
     }, []);
 
-    
+    console.log(location.state);
 
 
     return (
         <div>
-            {  location.state === "admin" && <Admin role={location.state} user = {user}/>}
+            {  location.state === "admin" && <Admin role={location.state} user={user}/>}
             {  location.state ==="student" && <Student role={location.state} />} 
         </div>
     )
