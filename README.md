@@ -15,11 +15,12 @@ Good programming practices like modular code, documentation, and following the f
 
 
 
-//   Steps to install the application
-
+//   Steps to install the application    
+      
 //   git clone the project 
-
-//   cd client ; npm install     *install the dependencies required by the client*
+      
+//   cd client ; npm install     *install the dependencies required by the client*     
+    
 //   cd server ; npm install     *install the depencencies required by the server*
 
-
+//users to login are in the users.json file in the server directory
