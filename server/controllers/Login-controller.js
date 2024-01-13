@@ -18,6 +18,7 @@ const login = async (req, res) => {
     } catch(error) {
         return new Error(error);
     }  
+    console.log(existingUser);
 
     if(!existingUser) {
         return res.status(400).json({
@@ -33,8 +34,10 @@ const login = async (req, res) => {
         });
     }
 
-    const token = jwt.sign({ id: existingUser._id }, String(process.env.JWT_SECRET_KEY), {
-        expiresIn: "3600s",
+    const token = jwt.sign(
+        { id: existingUser._id }, 
+        String(process.env.JWT_SECRET_KEY), {
+        expiresIn: "35s",
     });
 
     console.log("Generated Token\n", token);
@@ -45,9 +48,10 @@ const login = async (req, res) => {
 
     res.cookie(String(existingUser._id), token, {
         path: "/",
-        expires: new Date(Date.now() + 1000 * 3600), // 1 hr 
+        expires: new Date(Date.now() + 1000 * 35), // 35s
         httpOnly: true,
-        sameSite: "lax",
+        sameSite: 'None',
+        secure : true,
     });
     
     return res

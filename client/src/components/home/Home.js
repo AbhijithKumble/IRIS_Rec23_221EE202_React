@@ -20,7 +20,6 @@ const Admin = (prop) => {
         navigate('/view')
     };
 
-
     return (
     <>
         <Logout />
@@ -67,11 +66,10 @@ const Home = () => {
     const refreshToken = async () => {
         const res = await axios.get("http://localhost:5000/refresh", {
             withCredentials: true,
-        })
-        .catch((err) => console.log(err));
-        
-        const data = await res.data;
-        return data;
+        }).catch((err) => console.log(err));
+        console.log(res);
+        // const data = await res.data;
+        // return data;
     };
 
     const sendRequest = async () => {
@@ -80,33 +78,33 @@ const Home = () => {
         })
         .catch((err) => console.log(err));
         console.log(res);
-        const data = await res.data;
-        return data;
+        // const data = await res.data;
+        // return data;
     };
 
     React.useEffect(() => {
         if (firstRender) {
         firstRender = false;
         sendRequest()
-        .then((data) => setUser(data.user));
+        // .then((data) => setUser(data.user));
         }
 
         let interval = setInterval(() => {
             refreshToken()
-            .then((data) => setUser(data.user));
-        }, 1000 * 3600);
+            // .then((data) => setUser(data.user));
+        }, 1000 * 30);
 
         return () => clearInterval(interval);
     
     }, []);
 
-    console.log(location.state);
 
 
     return (
         <div>
             {  location.state === "admin" && <Admin role={location.state} user={user}/>}
             {  location.state ==="student" && <Student role={location.state} />} 
+            
         </div>
     )
 };

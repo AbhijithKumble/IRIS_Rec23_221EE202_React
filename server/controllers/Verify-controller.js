@@ -1,3 +1,5 @@
+import jwt from "jsonwebtoken";
+
 const verifyToken = (req, res, next) => {
     const cookies = req.headers.cookie;
     const token = cookies.split("=")[1];
@@ -9,14 +11,10 @@ const verifyToken = (req, res, next) => {
 
     jwt.verify(String(token), process.env.JWT_SECRET_KEY, (err, user) => {
       if (err) {
-        return res
-          .status(400)
-          .json({
+        return res.status(400).json({
             message: "Invalid TOken" 
           });
       }
-
-      console.log(user.id);
       req.id = user.id;
     
     });

@@ -18,6 +18,7 @@ const Logout = () => {
                 withCredentials: true,
             });
             if (res.status === 200) {
+                history('/login');
                 return res;
             }
             return new Error("Unable to Logout. Please try again");
@@ -29,9 +30,10 @@ const Logout = () => {
 
 
     const handleLogout = () => {
-        sendLogoutReq()
-            .then(() => dispatch(authActions.logout()))
-            .then(() => history('/login'));
+        sendLogoutReq().then(() => {
+            dispatch(authActions.logout());
+
+        }).catch(err => console.error(err))
     };
 
     return (

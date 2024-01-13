@@ -26,38 +26,54 @@ const Login = () => {
     };
 
     const sendRequest =async () => {
-        await axios.post("http://localhost:5000/login",data)
-        .then((res) => {
-            console.log(res.status === 200);
-            if (res.status === 200) {
-                console.log(res);
-                history('/home', {state : res.data.role});
+        try {
+            const response = await axios.post("http://localhost:5000/login", data);
+      
+            if (response.status === 200) {
+              history('/home', { state: response.data.role });
             }
-            else {
-                alert("wrong details");
+          } catch (error) {
+            if (error.response && error.response.status === 401) {
+              alert("Wrong credentials");
+            } else {
+              console.error("An error occurred:", error);
             }
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+        }
+
+     
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        sendRequest()
-            .then(() => dispatch(authActions.login()))
-            // .then(() => history("/home"));
+        sendRequest().then(() => {
+            dispatch(authActions.login());
+        });
     };
     
     return(
         <div className="App">
             <form className="login" method="post">
                 <label htmlFor="username">Username</label>
-                <input className="username" type="text" onChange={handleUsernameChange} value={username} required autoFocus></input>
+                <input 
+                    className="username" 
+                    type="text" 
+                    onChange={handleUsernameChange} 
+                    value={username} 
+                    required 
+                    autoFocus 
+                />
                 <label htmlFor="password">Password</label>
-                <input className="username" type="password" onChange={handlePasswordChange} value={password} required></input>
-                <button id="login-button" onClick={handleSubmit} type="submit" value="submit">Login</button>
+                <input 
+                    className="username" 
+                    type="password" 
+                    onChange={handlePasswordChange} 
+                    value={password} 
+                    required 
+                />
+                <button id="login-button" onClick={handleSubmit} type="submit" value="submit">
+                    Login
+                </button>
             </form>
         </div>
     );
