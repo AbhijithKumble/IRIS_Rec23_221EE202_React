@@ -1,3 +1,5 @@
+import jwt from "jsonwebtoken";
+
 const logout = (req, res, next) => {
   const cookies = req.headers.cookie;
   const prevToken = cookies.split("=")[1];

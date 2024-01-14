@@ -31,24 +31,32 @@ const Login = () => {
       
             if (response.status === 200) {
               history('/home', { state: response.data.role });
+              return true;
             }
-          } catch (error) {
-            if (error.response && error.response.status === 401) {
-              alert("Wrong credentials");
-            } else {
-              console.error("An error occurred:", error);
-            }
+        } catch (error) {
+            // if (error.response && error.response.status === 401) {
+            //   alert("Wrong credentials");
+            // } else {
+            //   console.error("An error occurred:", error);
+            // }
+            alert('Wrong credentials');
+            return false
         }
-
-     
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async(event) => {
         event.preventDefault();
 
-        sendRequest().then(() => {
-            dispatch(authActions.login());
-        });
+        try {
+            const loginSuccessful = await sendRequest();
+        
+            if (loginSuccessful) {
+              dispatch(authActions.login());
+            }
+
+        } catch (error) {
+            console.error("Login failed:", error);
+        }
     };
     
     return(
