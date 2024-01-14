@@ -24,3 +24,8 @@ Good programming practices like modular code, documentation, and following the f
 //   cd server ; npm install     *install the depencencies required by the server*
 
 //users to login are in the users.json file in the server directory
+
+
+https://github.com/AbhijithKumble/IRIS_Rec23_221EE202_React/assets/111272467/4383caa9-757e-450f-81a4-0432644e705d
+
+
