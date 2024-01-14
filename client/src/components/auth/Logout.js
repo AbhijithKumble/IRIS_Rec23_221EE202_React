@@ -19,12 +19,14 @@ const Logout = () => {
             });
             if (res.status === 200) {
                 history('/login');
+
                 return res;
             }
-            return new Error("Unable to Logout. Please try again");
+            throw new Error("Unable to Logout. Please try again");
             
         } catch(error) {
             console.error(error);
+            throw error;
         }
     };
 
@@ -32,7 +34,6 @@ const Logout = () => {
     const handleLogout = () => {
         sendLogoutReq().then(() => {
             dispatch(authActions.logout());
-
         }).catch(err => console.error(err))
     };
 

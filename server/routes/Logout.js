@@ -4,6 +4,6 @@ import verifyToken from "../controllers/Verify-controller.js";
 
 const router = express.Router();
 
-router.get('/', verifyToken, logout);
+router.post('/', verifyToken, logout);
 
 export default router;

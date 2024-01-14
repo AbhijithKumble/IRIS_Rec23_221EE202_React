@@ -67,7 +67,7 @@ const Home = () => {
         const res = await axios.get("http://localhost:5000/refresh", {
             withCredentials: true,
         }).catch((err) => console.log(err));
-        console.log(res);
+        // console.log(res);
         // const data = await res.data;
         // return data;
     };
@@ -77,7 +77,7 @@ const Home = () => {
             withCredentials: true,
         })
         .catch((err) => console.log(err));
-        console.log(res);
+        // console.log(res);
         // const data = await res.data;
         // return data;
     };

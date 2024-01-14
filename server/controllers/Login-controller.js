@@ -10,14 +10,15 @@ const login = async (req, res) => {
     let collection;
 
 
-    loginDB = mongoose.connection.getClient().db('iris-service-req');
-    collection = loginDB.collection('login-info');  //collection used to store login-info
-     
-    try{
-        existingUser = await collection.findOne({username});
-    } catch(error) {
-        return new Error(error);
-    }  
+    try {
+        loginDB = mongoose.connection.getClient().db('iris-service-req');
+        collection = loginDB.collection('login-info');
+        existingUser = await collection.findOne({ username });
+    } catch (error) {
+        console.error("An error occurred:", error);
+        return res.status(500).json({ message: "Internal Server Error" });
+    }
+    
     console.log(existingUser);
 
     if(!existingUser) {
@@ -29,7 +30,7 @@ const login = async (req, res) => {
     const isPasswordCorrect =  (hashPasswordWithSalt(password, existingUser.salt) === existingUser.hashedPassword);
 
     if (!isPasswordCorrect) {
-        return res.status(400).json({ 
+        return res.status(401).json({ 
             message: "Inavlid username / password" 
         });
     }
@@ -43,7 +44,7 @@ const login = async (req, res) => {
     console.log("Generated Token\n", token);
     
     if (req.cookies[`${existingUser._id}`]) {
-        req.cookies[`${existingUser._id}`] = "";
+        res.clearCookie(`${existingUser._id}`);
     }
 
     res.cookie(String(existingUser._id), token, {
@@ -54,17 +55,15 @@ const login = async (req, res) => {
         secure : true,
     });
     
-    return res
-        .status(200)
-        .json({ 
-            message: "Successfully Logged In", 
-            user: {
-                username : username,
-                password:password
-            }, 
-            role : existingUser.role,
-            token 
-        });
+    return res.status(200).json({ 
+        message: "Successfully Logged In", 
+        user: {
+            username : username,
+            password:password
+        }, 
+        role : existingUser.role,
+        token 
+    });
 };
 
 export default login;
